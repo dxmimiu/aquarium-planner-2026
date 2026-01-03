@@ -1,0 +1,249 @@
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
+:root {
+    --bg-color: #EAF7F9;
+    --primary: #7ED6DF;     /* ฟ้าอมเขียว */
+    --secondary: #55EFC4;   /* เขียวมิ้นต์ */
+    --highlight: #74B9FF;   /* ฟ้าสดใส */
+    --text: #2D3436;        /* เทาเข้ม */
+    --danger: #fab1a0;      /* ส้มอ่อน (สำหรับปุ่มลบ) */
+    --white: #ffffff;
+    --shadow: 0 8px 24px rgba(116, 185, 255, 0.15);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden; /* ป้องกันสกรอลแนวนอน */
+    position: relative;
+    padding-bottom: 40px;
+}
+
+/* =========================================
+   2. BACKGROUND ANIMATION (ตู้ปลา)
+   ========================================= */
+.ocean-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; pointer-events: none;
+}
+.bubble {
+    position: absolute; bottom: -50px; background: rgba(255,255,255,0.5);
+    border-radius: 50%; animation: floatUp 15s infinite ease-in-out;
+}
+.b1 { width: 40px; height: 40px; left: 10%; animation-duration: 8s; }
+.b2 { width: 20px; height: 20px; left: 80%; animation-duration: 12s; }
+.b3 { width: 60px; height: 60px; left: 40%; animation-duration: 18s; }
+
+.fish {
+    position: absolute; font-size: 2rem; color: var(--highlight);
+    opacity: 0.3; animation: swim 25s infinite linear;
+}
+.f1 { top: 20%; left: -100px; animation-duration: 30s; }
+.f2 { top: 60%; left: -100px; animation-duration: 20s; animation-delay: 5s; color: var(--primary); }
+
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100vh); opacity: 0; }
+}
+@keyframes swim {
+    0% { left: -100px; transform: scaleX(1); }
+    100% { left: 110%; transform: scaleX(1); }
+}
+
+/* =========================================
+   3. CONNECT SCREEN (หน้าใส่รหัสห้อง)
+   ========================================= */
+.connect-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(234, 247, 249, 0.98); /* พื้นหลังทึบขึ้นหน่อย */
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+}
+.connect-box {
+    background: white; padding: 40px; border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(116, 185, 255, 0.2);
+    text-align: center; max-width: 400px; width: 90%;
+}
+.connect-box i { font-size: 3rem; color: var(--primary); margin-bottom: 20px; }
+.connect-box h2 { color: var(--text); margin-bottom: 10px; font-weight: 700; }
+.connect-box p { color: #b2bec3; margin-bottom: 20px; font-size: 0.9rem; }
+.connect-box input {
+    width: 100%; padding: 12px; margin-bottom: 20px;
+    border: 2px solid #dfe6e9; border-radius: 12px;
+    font-size: 1.1rem; text-align: center; outline: none;
+    transition: 0.3s;
+}
+.connect-box input:focus { border-color: var(--highlight); }
+
+/* Utility Class */
+.hidden { display: none !important; }
+
+/* =========================================
+   4. MAIN LAYOUT
+   ========================================= */
+.container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px;
+}
+.logo { font-size: 1.3rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px;}
+.today-badge {
+    font-weight: 600; color: var(--primary); background: white;
+    padding: 6px 15px; border-radius: 20px; font-size: 0.9rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Grid Layout for Desktop */
+@media (min-width: 768px) {
+    .planner-layout {
+        display: grid;
+        grid-template-columns: 1fr 1.3fr; /* Calendar เล็กกว่า Tasks นิดนึง */
+        gap: 25px;
+        align-items: start;
+        margin-bottom: 25px;
+    }
+}
+
+/* =========================================
+   5. CARD STYLES
+   ========================================= */
+.card {
+    background: var(--white); border-radius: 24px; padding: 25px;
+    box-shadow: var(--shadow); margin-bottom: 20px;
+}
+.card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 15px;
+}
+.card-header h2, .card-header h3 { font-size: 1.1rem; color: var(--text); }
+.card-header button {
+    background: none; border: none; font-size: 1.2rem;
+    cursor: pointer; color: var(--highlight); transition: 0.2s;
+}
+.card-header button:hover { transform: scale(1.1); }
+
+/* =========================================
+   6. CALENDAR
+   ========================================= */
+.weekdays {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    text-align: center; color: #b2bec3; font-weight: 700;
+    margin-bottom: 10px; font-size: 0.85rem;
+}
+.days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+
+.days div {
+    height: 40px; display: flex; justify-content: center; align-items: center;
+    border-radius: 12px; cursor: pointer; position: relative;
+    font-size: 0.95rem; transition: 0.2s;
+}
+.days div:hover:not(.selected) { background: #f1f2f6; }
+.days div.today { border: 2px solid var(--primary); color: var(--primary); font-weight: bold; }
+.days div.selected { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(126, 214, 223, 0.4); }
+
+/* จุดสีใต้เลขวัน */
+.days div.has-task::after {
+    content: ''; position: absolute; bottom: 4px;
+    width: 4px; height: 4px; background: var(--secondary);
+    border-radius: 50%;
+}
+/* ไอคอน Mood บนปฏิทิน */
+.mood-dot { position: absolute; top: 1px; right: 1px; font-size: 0.7rem; }
+
+/* =========================================
+   7. TASKS & MOOD & DIARY
+   ========================================= */
+/* Mood Section */
+.mood-section { margin-bottom: 15px; text-align: center; padding-bottom: 15px; border-bottom: 1px solid #f1f2f6; }
+.label-text { font-size: 0.85rem; color: #b2bec3; font-weight: 600; margin-bottom: 8px; }
+.mood-options { display: flex; justify-content: center; gap: 10px; }
+.mood-btn {
+    font-size: 1.4rem; background: #f1f2f6; border: none;
+    border-radius: 50%; width: 38px; height: 38px;
+    cursor: pointer; transition: 0.2s;
+}
+.mood-btn.active { background: var(--highlight); transform: scale(1.15); box-shadow: 0 2px 8px rgba(116, 185, 255, 0.4); }
+
+/* Task Input */
+.input-group { display: flex; gap: 10px; margin-bottom: 15px; }
+#task-input {
+    flex: 1; padding: 10px 15px; border-radius: 50px;
+    border: 2px solid #dfe6e9; outline: none; transition: 0.3s;
+}
+#task-input:focus { border-color: var(--highlight); }
+#add-task-btn {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--secondary); border: none; color: white;
+    cursor: pointer; font-size: 1.1rem; box-shadow: 0 3px 8px rgba(85, 239, 196, 0.3);
+}
+
+/* Task List */
+#task-list { list-style: none; margin-bottom: 20px; max-height: 200px; overflow-y: auto; }
+.task-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 5px; border-bottom: 1px solid #f1f2f6;
+}
+.task-left { display: flex; align-items: center; gap: 10px; flex: 1; cursor: pointer; }
+.custom-checkbox {
+    width: 18px; height: 18px; border: 2px solid var(--primary);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+}
+.task-item.completed .custom-checkbox { background: var(--primary); }
+.task-item.completed .custom-checkbox::after { content: '✔'; color: white; font-size: 0.7rem; }
+.task-item.completed span { text-decoration: line-through; color: #b2bec3; }
+
+/* Diary */
+.diary-section textarea {
+    width: 100%; height: 80px; padding: 12px;
+    border-radius: 15px; border: 2px solid #dfe6e9;
+    outline: none; resize: none; font-family: 'Quicksand'; transition: 0.3s;
+}
+.diary-section textarea:focus { border-color: var(--highlight); }
+
+/* =========================================
+   8. VISION BOARD
+   ========================================= */
+.vision-input-area {
+    display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+}
+.vision-input-area input {
+    flex: 1; padding: 10px 15px; border-radius: 12px;
+    border: 2px solid #dfe6e9; outline: none; min-width: 150px;
+}
+.btn-primary {
+    background: var(--primary); color: white; padding: 10px 20px;
+    border: none; border-radius: 12px; cursor: pointer; font-weight: 600;
+    box-shadow: 0 4px 10px rgba(126, 214, 223, 0.4); transition: 0.2s;
+}
+.btn-primary:hover { background: var(--highlight); transform: translateY(-2px); }
+
+.vision-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+}
+.vision-item {
+    position: relative; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.2s;
+    background: white; aspect-ratio: 1/1; /* ให้รูปเป็นสี่เหลี่ยมจัตุรัส */
+}
+.vision-item:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+.vision-item img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.vision-caption {
+    position: absolute; bottom: 0; width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: white; font-size: 0.8rem; padding: 8px 5px; text-align: center;
+}
+.vision-delete {
+    position: absolute; top: 8px; right: 8px;
+    background: rgba(255,255,255,0.9); color: var(--danger);
+    border: none; border-radius: 50%; width: 26px; height: 26px;
+    cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center;
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aquarium Sync Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="ocean-bg">
+        <div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div>
+        <div class="fish f1"><i class="fa-solid fa-fish"></i></div>
+        <div class="fish f2"><i class="fa-solid fa-fish-fins"></i></div>
+    </div>
+
+    <div id="connect-screen" class="connect-overlay">
+        <div class="connect-box">
+            <i class="fa-solid fa-network-wired"></i>
+            <h2>Sync Your Planner</h2>
+            <p>ใส่ "รหัสลับ" เดียวกันทั้ง 2 เครื่องเพื่อเชื่อมต่อ</p>
+            <input type="text" id="secret-key-input" placeholder="ตั้งชื่อห้อง (เช่น myroom123)">
+            <button id="connect-btn" class="btn-primary">Connect</button>
+        </div>
+    </div>
+
+    <div class="container hidden" id="main-app">
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-water" style="color: var(--primary);"></i> <span id="room-name-display">My Planner</span>
+            </div>
+            <div class="today-badge" id="today-display"></div>
+            <button onclick="logoutRoom()" style="background:none; border:none; color:#fab1a0; cursor:pointer; margin-left:10px;">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+        </header>
+
+        <div class="planner-layout">
+            <section class="card calendar-card">
+                <div class="card-header">
+                    <button id="prev-month"><i class="fa-solid fa-chevron-left"></i></button>
+                    <h2 id="current-month-year"></h2>
+                    <button id="next-month"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="weekdays">
+                    <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                </div>
+                <div class="days" id="calendar-days"></div>
+            </section>
+
+            <section class="card tasks-card">
+                <div class="card-header">
+                    <h3><i class="fa-regular fa-calendar-check"></i> <span id="selected-date-display">-</span></h3>
+                    <button class="clear-all-btn" onclick="clearDayTasks()"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+                
+                <div class="mood-section">
+                    <p class="label-text">Mood Check:</p>
+                    <div class="mood-options">
+                        <button onclick="setMood('happy')" class="mood-btn" data-mood="happy">😆</button>
+                        <button onclick="setMood('neutral')" class="mood-btn" data-mood="neutral">😐</button>
+                        <button onclick="setMood('tired')" class="mood-btn" data-mood="tired">😴</button>
+                        <button onclick="setMood('sad')" class="mood-btn" data-mood="sad">😢</button>
+                        <button onclick="setMood('angry')" class="mood-btn" data-mood="angry">😡</button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="task-input" placeholder="Plan... (Enter)">
+                    <button id="add-task-btn"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <ul id="task-list"></ul>
+
+                <div class="diary-section">
+                    <p class="label-text">Diary</p>
+                    <textarea id="diary-input" placeholder="Note..."></textarea>
+                </div>
+            </section>
+        </div>
+
+        <section class="card vision-card">
+            <div class="card-header">
+                <h2>Vision Board</h2>
+            </div>
+            <div class="vision-input-area">
+                <input type="text" id="vision-url" placeholder="URL รูปภาพ...">
+                <input type="text" id="vision-caption" placeholder="คำบรรยาย...">
+                <button onclick="addVisionItem()" class="btn-primary">เพิ่ม</button>
+            </div>
+            <div class="vision-grid" id="vision-grid"></div>
+        </section>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
